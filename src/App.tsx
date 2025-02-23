@@ -1,9 +1,9 @@
 
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import './App.css'
-import Auth from './pages/auth'
-import Chat from './pages/chat'
-import Profile from './pages/profile'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import './App.css';
+import Auth from '@/pages/auth';
+import Chat from '@/pages/chat';
+import Profile from '@/pages/profile';
 
 const App = () => {
   return (
