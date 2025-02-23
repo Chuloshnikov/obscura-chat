@@ -1,12 +1,13 @@
 
 import './App.css'
+import { Button } from './components/ui/button'
 
 function App() {
 
 
   return (
     <div className=''>
-        ehfghfghjhg
+         <Button>Click me</Button>
     </div>
   )
 }
