@@ -1,9 +1,9 @@
 
 
-const Auth = () => {
+const Chat = () => {
   return (
     <div>Chat</div>
   )
 }
 
-export default Auth;
+export default Chat;
