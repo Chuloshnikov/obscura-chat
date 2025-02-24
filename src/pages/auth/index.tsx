@@ -1,23 +1,50 @@
 //import Background from "@/assets/login2.png";
 import BackgroundObscura from "@/assets/obscura.svg";
-import Victory from "@/assets/victory.svg"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
-import { Input } from "../../components/ui/input";
-import { Button } from "../../components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { apiClient } from "@/lib/api-client";
+import { SIGNUP_ROUTE } from "@/utils/constants";
 
 const Auth = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    console.log(SIGNUP_ROUTE);
+    console.log('API URL:', apiClient.defaults.baseURL + SIGNUP_ROUTE);
+
+    const validateSignUp = () => {
+        if (!email.length) {
+            toast.error("Email is required.");
+            return false;
+        }
+        if (!password.length) {
+            toast.error("Password is required.");
+            return false;
+        }
+        if (password !== confirmPassword) {
+            toast.error("Password and confirm password should be the same");
+            return false;
+        }
+        return true;
+    }
 
     const handleLogin = async () => {
 
     };
 
     const handleSignUp = async () => {
-
+        if (validateSignUp()) {
+            const response = await apiClient.post(SIGNUP_ROUTE, { email, password }, {
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              });
+            console.log(response);
+        }
     };
 
   return (
@@ -28,9 +55,7 @@ const Auth = () => {
             <div className="flex flex-col gap-10 items-center justify-center">
                 <div className="flex items-center justify-center flex-col">
                     <div className="flex items-center justify-center">
-                        <h1 className="text-5xl font-bold md:text-6xl">Welcome</h1>
-                        <img src={Victory} alt="Victory Emoji" className="h-[100px]"/>
-                      
+                        <h1 className="text-5xl font-bold md:text-6xl">Welcome!</h1>
                     </div>
                     <p className="font-medium text-center">
                         Join the Obscura, the maxter community personal chat
@@ -43,7 +68,7 @@ const Auth = () => {
                             value="login"
                             className="data-[state=active]:bg-transparent text-black 
                             text-opacity-90 border-b-2 rounded-none w-full data-[state=active]:text-black
-                            data-[state=active]:font-semibold data-[state=active]:border-b-purple-500 p-3 transition-all duration-300"
+                            data-[state=active]:font-semibold data-[state=active]:border-b-red-700 p-3 transition-all duration-300"
                             >
                                 Login
                             </TabsTrigger>
@@ -51,7 +76,7 @@ const Auth = () => {
                             value="signup"
                             className="data-[state=active]:bg-transparent text-black 
                             text-opacity-90 border-b-2 rounded-none w-full data-[state=active]:text-black
-                            data-[state=active]:font-semibold data-[state=active]:border-b-purple-500 p-3 transition-all duration-300"
+                            data-[state=active]:font-semibold data-[state=active]:border-b-red-700 p-3 transition-all duration-300"
                             >
                                 Signup
                             </TabsTrigger>
@@ -110,7 +135,7 @@ const Auth = () => {
                             onClick={handleSignUp}
                             className="rounded-full p-6"
                             >
-                                Login
+                                Signup
                             </Button>
                         </TabsContent>
                     </Tabs>
