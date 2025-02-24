@@ -38,14 +38,11 @@ const Auth = () => {
 
     const handleSignUp = async () => {
         if (validateSignUp()) {
-            const response = await apiClient.post(SIGNUP_ROUTE, { email, password }, {
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-              });
-            console.log(response);
+            const response = await apiClient.post(SIGNUP_ROUTE, { email, password });
+            console.log({response});
         }
     };
+
 
   return (
     <div className="h-[100vh] w-[100vw] flex items-center justify-center">
