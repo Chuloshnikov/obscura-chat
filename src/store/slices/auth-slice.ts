@@ -3,15 +3,18 @@ import { StateCreator } from "zustand";
 
 export interface UserInfo {
     id: string;
-    name: string;
     email: string;
-  }
-  
-  export interface AuthState {
-    userInfo?: UserInfo;
-    setUserInfo: (userInfo: UserInfo) => void;
+    firstName?: string;
+    lastName?:  string;
+    profileSetup?: boolean;
+    image?: string
+    color?: number,
   }
 
+  export interface AuthState {
+    userInfo?: UserInfo; 
+    setUserInfo: (userInfo: UserInfo | undefined) => void;
+  }
 
 export const createAuthSlice: StateCreator<AuthState> = (set) => ({
   userInfo: undefined,
