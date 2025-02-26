@@ -1,5 +1,5 @@
 import { useAppStore } from "@/store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
 import { FaPlus, FaTrash } from "react-icons/fa";
@@ -7,21 +7,50 @@ import { Avatar, AvatarImage } from "../../components/ui/avatar";
 import { colors, getColor } from "../../lib/utils";
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
+import { useProfileValidation } from "../../hooks/useProfileValidation";
+import { UPDATE_PROFILE_ROUTE } from "../../utils/constants";
+import { apiClient } from "../../lib/api-client";
+import { toast } from "sonner";
 
 
 const Profile = () => {
   const navigate = useNavigate();
-  const { userInfo } = useAppStore();
+  const { userInfo, setUserInfo } = useAppStore();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [image, setImage] = useState(null);
   const [hovered, setHovered] = useState(false);
   const [selectedColor, setSelectedColor] = useState(0);
+  const { validateProfile } = useProfileValidation();
+
+  useEffect(() => {
+    if(userInfo.profileSetup) {
+      setFirstName(userInfo.firstName);
+      setLastName(userInfo.lastName);
+      setSelectedColor(userInfo.color);
+    }
+  }, [userInfo])
+
 
   const saveChanges = async () => {
-
-  }
+    if (validateProfile(firstName, lastName)) {
+      try {
+        const response = await apiClient.post(
+          UPDATE_PROFILE_ROUTE, 
+          { firstName, lastName, color: selectedColor },
+          { withCredentials: true }
+        );
+        if (response.status === 200 && response.data) {
+          setUserInfo({ ...response.data });
+          toast.success("Profile updated successfully.");
+          navigate("/chat");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   return (
     <div className="bg-[#1b1c24] h-[100vh] flex items-center justify-center flex-col gap-10">
@@ -81,7 +110,6 @@ const Profile = () => {
                   onChange={(e) => setLastName(e.target.value)}
                   placeholder="Last Name" 
                   type="text" 
-                  disabled 
                   value={lastName} 
                   className="rounded-lg p-6 bg-[#2c2e3b] border-none"
                   />
