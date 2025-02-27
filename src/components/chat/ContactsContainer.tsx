@@ -1,4 +1,4 @@
-import obscura from "../../../public/obscura.svg";
+import obscura from "@/assets/obscura.svg";
 import Title from "./Title";
 
 const ContactsContainer = () => {
