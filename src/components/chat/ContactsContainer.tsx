@@ -1,5 +1,6 @@
 import obscura from "@/assets/obscura.svg";
 import Title from "./Title";
+import ProfileInfo from "./ProfileInfo";
 
 const ContactsContainer = () => {
   return (
@@ -22,6 +23,7 @@ const ContactsContainer = () => {
                 <Title text="Channels"/>
             </div>
         </div>
+        <ProfileInfo/>
     </div>
   )
 }
