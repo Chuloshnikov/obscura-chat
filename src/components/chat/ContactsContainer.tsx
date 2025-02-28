@@ -1,6 +1,7 @@
 import obscura from "@/assets/obscura.svg";
 import Title from "./Title";
 import ProfileInfo from "./ProfileInfo";
+import NewDM from "./NewDM";
 
 const ContactsContainer = () => {
   return (
@@ -16,6 +17,7 @@ const ContactsContainer = () => {
         <div className="my-5">
             <div className="flex items-center justify-between px-10">
                 <Title text="Direct Messages"/>
+                <NewDM/>
             </div>
         </div>
         <div className="my-5">
