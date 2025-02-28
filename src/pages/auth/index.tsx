@@ -1,6 +1,6 @@
 import BackgroundObscura from "@/assets/obscura.svg";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { apiClient } from "@/lib/api-client";
@@ -9,13 +9,25 @@ import { useNavigate } from "react-router-dom";
 import { useAuthValidation } from "@/hooks/useAuthValidation";
 import { useAppStore } from "@/store";
 
+
 const Auth = () => {
     const navigate = useNavigate();
-    const { setUserInfo } = useAppStore();
+    const { userInfo, setUserInfo } = useAppStore();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const { validateLogin, validateSignUp } = useAuthValidation();
+
+    useEffect(() => {
+        if (userInfo?.id) {
+            if (userInfo.profileSetup) {
+                navigate("/chat");
+            } else {
+                navigate("/profile");
+            }
+        }
+    }, [userInfo, navigate]);
+
 
 const handleLogin = async () => {
     if (validateLogin(email, password)) {
@@ -25,7 +37,7 @@ const handleLogin = async () => {
             { withCredentials: true }
         );
         if (response.data.user.id) {
-            setUserInfo(response.data.user);
+            await setUserInfo(response.data.user);
             if (response.data.user.profileSetup) {
                 navigate("/chat");
             } else {
