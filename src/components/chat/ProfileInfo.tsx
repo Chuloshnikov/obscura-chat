@@ -11,8 +11,6 @@ import { apiClient } from "../../lib/api-client";
 const ProfileInfo = () => {
     const { userInfo, setUserInfo } = useAppStore();
     const navigate = useNavigate();
-    console.log(userInfo);
-
 
 
     const logOut = async () => {
@@ -40,8 +38,8 @@ const ProfileInfo = () => {
                 alt="profile" 
                 className="object-cover w-full h-full bg-black"
                 /> : (
-                    <div className={`uppercase h-32 w-32 md:w-48 md:h-48 text-lg border-[1px] flex items-center justify-center rounded-full ${getColor(userInfo?.color)}`}>
-                        {userInfo?.firstName ? userInfo?.firstName.split("").shift()  : userInfo?.email.split("").shift()}
+                    <div className={`uppercase h-12 w-12 text-lg border-[1px] flex items-center justify-center rounded-full ${getColor(userInfo?.color)}`}>
+                        {userInfo?.firstName ? userInfo?.firstName.charAt(0) : userInfo?.email?.charAt(0)}
                     </div>
                 )}
                 </Avatar>
