@@ -24,7 +24,7 @@ export interface ChatSlice {
   selectedChatData?: string;
   selectedChatMessages: string[];
   setSelectedChatType: (selectedChatType: string | undefined) => void;
-  setSelectedChatData: (selectedChatData: any | undefined) => void;
+  setSelectedChatData: (selectedChatData: ContactTypes | undefined) => void;
   setSelectedChatMessages: (selectedChatMessages: string[]) => void;
   closeChat: () => void;
 }
