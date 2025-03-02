@@ -8,6 +8,7 @@ const ChatHeader = () => {
 
   const { closeChat, selectedChatData, selectedChatType } = useAppStore();
   console.log(selectedChatData);
+  console.log(selectedChatType);
 
   return (
     <div className="h-[10vh] border-b-2 border-[#2f303b] flex items-center justify-between px-20">
@@ -20,7 +21,7 @@ const ChatHeader = () => {
                           alt="profile" 
                           className="object-cover w-full h-full bg-black"
                           /> : (
-                          <div className={`uppercase h-32 w-32 md:w-48 md:h-48 text-lg border-[1px] flex items-center justify-center rounded-full ${getColor(selectedChatData?.color)}`}>
+                          <div className={`uppercase h-12 w-12 text-lg border-[1px] flex items-center justify-center rounded-full ${getColor(selectedChatData?.color)}`}>
                               {selectedChatData?.firstName ? selectedChatData?.firstName?.split("").shift()  : selectedChatData?.email.split("").shift()}
                           </div>
                           )}

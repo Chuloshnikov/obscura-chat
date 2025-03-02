@@ -29,6 +29,7 @@ const NewDM = () => {
     const { setSelectedChatData, setSelectedChatType } = useAppStore();
     const [openNewContactModal, setOpenNewContactModal] = useState(false);
     const [searchedContacts, setSearchedContacts] = useState([]);
+    console.log(searchedContacts);
 
     const searchContacts = async (searchTerm: string): Promise<void> => {
         try {
@@ -93,10 +94,10 @@ const NewDM = () => {
                     <ScrollArea className="max-h-[250px]">
                             <div className="flex flex-col gap-5">
                                 {
-                                    searchedContacts.map(({contact, index}: {contact: ContactTypes, index: number}) => (
+                                    searchedContacts.map((contact: ContactTypes) => (
                                     <div 
                                     onClick={() => selectNewContact(contact)}
-                                    key={index}
+                                    key={contact._id}
                                     className="flex gap-3 items-center cursor-pointer"
                                     >
                                         <div className="w-12 h-12 relative">
@@ -106,8 +107,8 @@ const NewDM = () => {
                                             alt="profile" 
                                             className="object-cover w-full h-full bg-black"
                                             /> : (
-                                                <div className={`uppercase h-32 w-32 md:w-48 md:h-48 text-lg border-[1px] flex items-center justify-center rounded-full ${getColor(contact?.color)}`}>
-                                                    {contact?.firstName ? contact?.firstName?.split("").shift()  : contact?.email.split("").shift()}
+                                                <div className={`uppercase h-12 w-12 md:w-12 md:h-12 text-lg border-[1px] flex items-center justify-center rounded-full ${getColor(contact?.color)}`}>
+                                                   {contact?.firstName ? contact?.firstName.charAt(0) : contact?.email?.charAt(0)}
                                                 </div>
                                             )}
                                             </Avatar>
