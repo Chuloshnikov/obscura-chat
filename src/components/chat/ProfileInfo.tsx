@@ -11,6 +11,9 @@ import { apiClient } from "../../lib/api-client";
 const ProfileInfo = () => {
     const { userInfo, setUserInfo } = useAppStore();
     const navigate = useNavigate();
+    console.log(userInfo);
+
+
 
     const logOut = async () => {
         try {
@@ -21,7 +24,7 @@ const ProfileInfo = () => {
             );
             if (response.status === 200) {
                 navigate("/auth");
-                setUserInfo(null);
+                setUserInfo(undefined);
             }
         } catch (error) {
             console.log(error);
@@ -33,12 +36,12 @@ const ProfileInfo = () => {
             <div className="w-12 h-12 relative">
                 <Avatar className="h-12 w-12 rounded-full overflow-hidden">
                 {userInfo?.image ? 
-                <AvatarImage src={`${HOST}/${userInfo?.image}`} 
+                <AvatarImage src={`${HOST}/${userInfo.image}`} 
                 alt="profile" 
                 className="object-cover w-full h-full bg-black"
                 /> : (
                     <div className={`uppercase h-32 w-32 md:w-48 md:h-48 text-lg border-[1px] flex items-center justify-center rounded-full ${getColor(userInfo?.color)}`}>
-                        {userInfo?.firstName ? userInfo?.firstName?.split("").shift()  : userInfo?.email.split("").shift()}
+                        {userInfo?.firstName ? userInfo?.firstName.split("").shift()  : userInfo?.email.split("").shift()}
                     </div>
                 )}
                 </Avatar>
