@@ -28,3 +28,16 @@ export interface ChatSlice {
   setSelectedChatMessages: (selectedChatMessages: string[]) => void;
   closeChat: () => void;
 }
+
+
+export type MessageType = "text" | "file";
+
+export interface Message {
+    id?: string; 
+    sender: string; 
+    recipient?: string; 
+    messageType: MessageType;
+    content?: string; 
+    fileUrl?: string; 
+    timestamp?: string; 
+}
