@@ -32,7 +32,7 @@ export interface ChatSlice {
 
 export type MessageType = "text" | "file";
 
-export interface Message {
+export interface MessageTypes {
     id?: string; 
     sender: string; 
     recipient?: string; 
