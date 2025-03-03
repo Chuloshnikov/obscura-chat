@@ -1,9 +1,64 @@
+import { useAppStore } from "@/store";
+import { useEffect, useRef } from "react";
+import moment from "moment";
+
+import { MessageTypes } from '@/types/index';
 
 
 const MessageContainer = () => {
+  const scrollRef = useRef();
+  const { selectedChatType, selectedChatData, userInfo, selectedChatMessages } = useAppStore();
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [selectedChatMessages]);
+  
+  const renderMessages = () => {
+    let lastDate = null;
+    return selectedChatMessages.map(({message, index}: {message: MessageTypes, index: number}) =>  {
+      const messageDate = moment(message.timestamp).format("DD-MM-YYYY");
+      const showDate = messageDate !== lastDate;
+      lastDate = messageDate;
+      return (
+        <div key={index}>
+          {showDate && (
+            <div className="text-center text-gray-500 my-2">
+              {moment(message.timestamp).format("LL")}
+              </div>
+            )}
+            {
+              selectedChatType === "contact" && renderDMMessages(message)
+            }
+        </div>
+      )
+    })
+  };
+
+  const renderDMMessages = ({message}: {message: MessageTypes}) => (
+    <div 
+    className={`${message.sender === selectedChatData._id ? "text-left" : "text-right"
+    }`}
+    >
+      {message.messageType === "text" && (
+        <div 
+        className={`${
+          message.sender !== selectedChatData._id 
+          ? "bg-red-500/5 text-red-500/90 border-red-500/50" 
+          : "bg-[2a2b33]/5 text-white/80 border-white/20"
+          } border inline-block p-4 rounded my-1 max-w-[50%] break-words`}>
+            {message.content}
+        </div>
+      )}
+    </div>
+  );
+
+
   return (
     <div className='flex-1 overflow-y-auto scrollbar-hidden p-4 px-8 md:w-[65vw] lg:w-[70vw] xl:w-[80vw] w-full'>
-        MessageContainer
+        {renderMessages()}
+        <div ref={scrollRef} />
     </div>
   )
 }
