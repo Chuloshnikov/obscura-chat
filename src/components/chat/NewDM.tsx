@@ -29,7 +29,6 @@ const NewDM = () => {
     const { setSelectedChatData, setSelectedChatType } = useAppStore();
     const [openNewContactModal, setOpenNewContactModal] = useState(false);
     const [searchedContacts, setSearchedContacts] = useState([]);
-    console.log(searchedContacts);
 
     const searchContacts = async (searchTerm: string): Promise<void> => {
         try {
