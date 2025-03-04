@@ -32,9 +32,7 @@ const MessageContainer: React.FC = () => {
       }
     }
     if (selectedChatData._id) {
-      if (selectedChatType === "contact") {
-        getMessages();
-      }
+      if (selectedChatType === "contact") getMessages();
     }
   }, [selectedChatData, selectedChatType, setSelectedChatMessages]);
 
