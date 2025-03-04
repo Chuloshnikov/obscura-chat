@@ -1,5 +1,5 @@
 export interface UserInfo {
-    id: string;
+    _id: FormDataEntryValue;
     name: string;
     email: string;
   }
@@ -33,9 +33,9 @@ export interface ChatSlice {
 export type MessageType = "text" | "file";
 
 export interface MessageTypes {
-    id?: string; 
-    sender: string; 
-    recipient?: string; 
+    _id?: FormDataEntryValue; 
+    sender: FormDataEntryValue; 
+    recipient?: FormDataEntryValue; 
     messageType: MessageType;
     content?: string; 
     fileUrl?: string; 
