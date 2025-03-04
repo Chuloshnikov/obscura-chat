@@ -19,20 +19,10 @@ export interface ContactTypes {
   }
 
   
-export interface ChatSlice {
-  selectedChatType?: string;
-  selectedChatData?: string;
-  selectedChatMessages: string[];
-  setSelectedChatType: (selectedChatType: string | undefined) => void;
-  setSelectedChatData: (selectedChatData: ContactTypes | undefined) => void;
-  setSelectedChatMessages: (selectedChatMessages: string[]) => void;
-  closeChat: () => void;
-}
-
-
 export type MessageType = "text" | "file";
 
-export interface MessageTypes {
+  
+  export interface MessageTypes {
     _id?: FormDataEntryValue; 
     sender: FormDataEntryValue; 
     recipient?: FormDataEntryValue; 
@@ -41,3 +31,15 @@ export interface MessageTypes {
     fileUrl?: string; 
     timestamp?: string; 
 }
+  
+export interface ChatSlice {
+  selectedChatType?: string;
+  selectedChatData?: string;
+  selectedChatMessages: string[];
+  setSelectedChatType: (selectedChatType: string | undefined) => void;
+  setSelectedChatData: (selectedChatData: ContactTypes | undefined) => void;
+  setSelectedChatMessages: (selectedChatMessages: MessageTypes[]) => void;
+  closeChat: () => void;
+}
+
+

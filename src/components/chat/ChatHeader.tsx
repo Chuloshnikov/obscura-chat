@@ -7,8 +7,6 @@ import { getColor } from "../../lib/utils";
 const ChatHeader = () => {
 
   const { closeChat, selectedChatData, selectedChatType } = useAppStore();
-  console.log(selectedChatData);
-  console.log(selectedChatType);
 
   return (
     <div className="h-[10vh] border-b-2 border-[#2f303b] flex items-center justify-between px-20">
