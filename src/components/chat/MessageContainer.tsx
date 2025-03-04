@@ -14,6 +14,7 @@ const MessageContainer: React.FC = () => {
     selectedChatMessages, 
     setSelectedChatMessages 
   } = useAppStore();
+  console.log(selectedChatMessages);
 
   useEffect(() => {
     const getMessages = async () => {
@@ -38,33 +39,15 @@ const MessageContainer: React.FC = () => {
 
   useEffect(() => {
     if (scrollRef.current) {
-      scrollRef.current.scrollIntoView({ behavior: "smooth" });
+        scrollRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
     }
-  }, [selectedChatMessages]);
+}, [selectedChatMessages]);
   
-  const renderMessages = () => {
-    let lastDate: string | null = null;
-    return selectedChatMessages.map((message: MessageTypes, index: number) => {
-      const messageDate = moment(message.timestamp).format("DD-MM-YYYY");
-      const showDate = messageDate !== lastDate;
-      lastDate = messageDate;
-      return (
-        <div key={index}>
-          {showDate && (
-            <div className="text-center text-gray-500 my-2">
-              {moment(message.timestamp).format("LL")}
-            </div>
-          )}
-          {selectedChatType === "contact" && renderDMMessages(message)}
-        </div>
-      );
-    });
-  };
-
+  
   const renderDMMessages = (message: MessageTypes) => (
     <div 
       className={`${
-        message.sender === selectedChatData?._id ? "text-left" : "text-right"
+        message.sender === userInfo.id ? "text-left" : "text-right"
       }`}
     >
       {message.messageType === "text" && (
@@ -83,6 +66,27 @@ const MessageContainer: React.FC = () => {
       </div>
     </div>
   );
+
+  const renderMessages = () => {
+    let lastDate: string | null = null;
+    return selectedChatMessages.map((message: MessageTypes, index: number) => {
+      const messageDate = moment(message.timestamp).format("DD-MM-YYYY");
+      const showDate = messageDate !== lastDate;
+      lastDate = messageDate;
+      const isLastMessage = index === selectedChatMessages.length - 1; // Проверка на последнее сообщение
+  
+      return (
+        <div key={index} ref={isLastMessage ? scrollRef : null}>
+          {showDate && (
+            <div className="text-center text-gray-500 my-2">
+              {moment(message.timestamp).format("LL")}
+            </div>
+          )}
+          {selectedChatType === "contact" && renderDMMessages(message)}
+        </div>
+      );
+    });
+  };
 
   return (
     <div className='flex-1 overflow-y-auto scrollbar-hidden p-4 px-8 md:w-[65vw] lg:w-[70vw] xl:w-[80vw] w-full'>

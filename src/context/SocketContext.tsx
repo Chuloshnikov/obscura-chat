@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useEffect, useRef } from "react";
+import { createContext, ReactNode, useContext, useEffect, useRef, useState } from "react";
 import { useAppStore } from "../store";
 import { HOST } from "../utils/constants";
 import { io, Socket } from "socket.io-client";
@@ -27,20 +27,25 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
                 console.log("Connected to socket server");
             });
 
-            const handleRecieveMessage = ({ message }: { message: MessageTypes }) => {
+            const handleReceiveMessage = (data: { message?: MessageTypes }) => {
+                if (!data?.message || !data.message.sender) {
+                    console.warn("Received invalid message:", data);
+                    return;
+                }
+            
                 const { selectedChatData, selectedChatType, addMessage } = useAppStore.getState();
             
                 if (
                     selectedChatData &&
                     selectedChatType &&
-                    (selectedChatData._id === message.sender._id || selectedChatData._id === message.recipient?._id)
+                    (selectedChatData._id === data.message.sender._id || selectedChatData._id === data.message.recipient?._id)
                 ) {
-                    console.log("message rcv", message);
-                    addMessage(message);
+                    console.log("Message received:", data.message);
+                    addMessage(data.message);
                 }
             };
 
-            socket.current.on("recieveMessage", handleRecieveMessage);
+            socket.current.on("receiveMessage", handleReceiveMessage);
 
             return () => {
                 if (socket.current) {
@@ -51,7 +56,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     }, [userInfo]);
 
     return (
-        <SocketContext.Provider value={socket.current}>
+        <SocketContext.Provider value={socket.current ?? null}>
             {children}
         </SocketContext.Provider>
     );
