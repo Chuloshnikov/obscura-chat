@@ -54,7 +54,7 @@ const MessageContainer: React.FC = () => {
     return imageRegex.test(filePath);
   };
 
-  const dawnloadFile = async (url: string) => {
+  const dawnloadFile = async (url: any) => {
     const response = await apiClient.get(`${HOST}/${url}`, 
       {responseType: "blob"}
     );
@@ -150,7 +150,7 @@ const MessageContainer: React.FC = () => {
         <div className="fixed z-[1000] top-0 left-0 h-[100vh] w-[100vw] flex items-center justify-center backdrop-blur-lg">
           <div>
             <img 
-            src={`${HOST}/${imageURL}`}
+            src={`${HOST}/${imageUrl}`}
             className="h-[80vh] w-full bg-cover"
             />
           </div>
